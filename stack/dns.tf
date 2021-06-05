@@ -21,5 +21,5 @@ resource "aws_route53_record" "test" {
   name    = "test.costah.dev"
   type    = "A"
   ttl     = "30"
-  records = [34.92.14.177]
+  records = ["34.92.14.177"]
 }
