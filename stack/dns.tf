@@ -16,29 +16,21 @@ resource "aws_route53_zone" "costah_dev" {
   name = "costah.dev"
 }
 
-resource "aws_route53_record" "test" {
-  zone_id = aws_route53_zone.costah_dev.zone_id
-  name    = "test.costah.dev"
-  type    = "A"
-  ttl     = "30"
-  records = ["34.92.14.177"]
-}
-
-# A records
-resource "aws_route53_record" "expm" {
-  zone_id = aws_route53_zone.costah_dev.zone_id
-  name    = "expm.costah.dev"
-  type    = "A"
-  alias {
-    name                   = aws_lb.wandb.dns_name
-    zone_id                = aws_lb.wandb.zone_id
-    evaluate_target_health = true
-  }
+resource "aws_route53_zone" "costahuang_me" {
+  name = "costahuang.me"
 }
 
 resource "aws_route53_record" "tt" {
   zone_id = aws_route53_zone.costah_dev.zone_id
   name    = "tt.costah.dev"
+  type    = "CNAME"
+  ttl     = "60"
+  records = ["${aws_lb.wandb.dns_name}"]
+}
+
+resource "aws_route53_record" "tt1" {
+  zone_id = aws_route53_zone.costahuang_me.zone_id
+  name    = "tt.costahuang.me"
   type    = "CNAME"
   ttl     = "60"
   records = ["${aws_lb.wandb.dns_name}"]
