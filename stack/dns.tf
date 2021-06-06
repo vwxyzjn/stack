@@ -36,10 +36,22 @@ resource "aws_route53_record" "tt1" {
   records = ["${aws_lb.wandb.dns_name}"]
 }
 
-
 resource "aws_acm_certificate" "costah_dev" {
-  domain_name       = "costah.dev"
+  domain_name = aws_route53_zone.costah_dev.name
+  subject_alternative_names = [
+    "*.${aws_route53_zone.costah_dev.name}",
+    "tt.${aws_route53_zone.costah_dev.name}",
+  ]
   validation_method = "DNS"
+
+  # Recommended by Terraform to make live-swaps smooth
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = {
+    Name = "curaihealth-certificate"
+  }
 }
 
 resource "aws_route53_record" "costah_dev" {
