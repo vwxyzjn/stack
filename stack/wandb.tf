@@ -448,7 +448,6 @@ resource "aws_lb_listener" "wandb_listener" {
 
   default_action {
     type = "redirect"
-    target_group_arn = aws_lb_target_group.wandb_tg.arn
 
     redirect {
       port        = "443"
@@ -467,12 +466,8 @@ resource "aws_lb_listener" "wandb_https_listener" {
   certificate_arn   = aws_acm_certificate_validation.costah_dev.certificate_arn
 
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Default backend"
-      status_code  = 200
-    }
+    type = "forward"
+    target_group_arn = aws_lb_target_group.wandb_tg.arn
   }
 }
 
