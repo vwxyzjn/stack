@@ -35,3 +35,11 @@ resource "aws_route53_record" "expm" {
     evaluate_target_health = true
   }
 }
+
+resource "aws_route53_record" "tt" {
+  zone_id = aws_route53_zone.costah_dev.zone_id
+  name    = "tt.costah.dev"
+  type    = "CNAME"
+  ttl     = "60"
+  records = ["${aws_lb.wandb.dns_name}"]
+}
