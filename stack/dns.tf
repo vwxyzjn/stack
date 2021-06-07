@@ -20,7 +20,7 @@ resource "aws_route53_record" "expm" {
   zone_id = aws_route53_zone.costah_dev.zone_id
   name    = "expm.costah.dev"
   type    = "CNAME"
-  expml     = "60"
+  ttl     = "60"
   records = ["${aws_lb.wandb.dns_name}"]
 }
 
