@@ -776,3 +776,27 @@ output "url" {
 output "lb_zone_id" {
   value = aws_lb.wandb.zone_id
 }
+
+resource "local_file" "kubeconfig" {
+  filename = "kubeconfig.yaml"
+  content  = <<KUBECONFIG
+    apiVersion: v1
+    kind: Config
+    clusters:
+    - cluster:
+        server: ${aws_eks_cluster.wandb.endpoint}
+        certificate-authority-data: ${aws_eks_cluster.wandb.certificate_authority[0].data}
+      name: kubernetes
+    contexts:
+    - context:
+        cluster: kubernetes
+        user: aws
+      name: aws
+    current-context: aws
+    preferences: {}
+    users:
+    - name: aws
+      user:
+        token: ${data.aws_eks_cluster_auth.wandb.token}
+KUBECONFIG
+}
