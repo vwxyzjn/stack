@@ -63,3 +63,7 @@ resource "aws_acm_certificate_validation" "costah_dev" {
   certificate_arn         = aws_acm_certificate.costah_dev.arn
   validation_record_fqdns = [for record in aws_route53_record.costah_dev : record.fqdn]
 }
+
+output "name_servers" {
+  value = aws_route53_zone.costah_dev.name_servers
+}
