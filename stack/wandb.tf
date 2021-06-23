@@ -222,7 +222,7 @@ resource "aws_eks_cluster" "wandb" {
   ]
 }
 
-data "aws_eks_cluster_auth" "wandb" {
+data "aws_eks_cluster_auth" "wandb2" {
   name = "wandb"
 }
 
@@ -651,7 +651,7 @@ provider "kubernetes" {
   config_context_auth_info = "aws"
   config_context_cluster   = "kubernetes"
 
-  token = data.aws_eks_cluster_auth.wandb.token
+  token = data.aws_eks_cluster_auth.wandb2.token
 }
 
 ##########################################
@@ -797,6 +797,6 @@ resource "local_file" "kubeconfig" {
     users:
     - name: aws
       user:
-        token: ${data.aws_eks_cluster_auth.wandb.token}
+        token: ${data.aws_eks_cluster_auth.wandb2.token}
 KUBECONFIG
 }
